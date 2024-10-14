@@ -1,7 +1,7 @@
 name: first_pipeline
 on: push
 jobs:
-  job1: 
+  build: 
     runs-on: ubuntu-latest
     steps: 
       - name: step1
@@ -11,15 +11,15 @@ jobs:
       - name: step2
         run: |
           echo "step2"
-          sleep 30
+          sleep 10
       - name: step3
         run: |
           echo "hello from step3"
           hostname
           pwd
-          sleep 30
+          sleep 10
           id
-  job2: 
+  test: 
     runs-on: ubuntu-latest
     steps: 
       - name: step1
@@ -27,11 +27,48 @@ jobs:
       - name: step2
         run: | 
           echo "job2 step2"
-          sleep 30
+          slp 10
       - name: step3
         run: |
           echo "hello from job 2 step3"
-          sleep 20
+          sleep 10
           hostname
           pwd
           id
+    needs: build
+  test2: 
+    runs-on: ubuntu-latest
+    needs: build
+    steps: 
+      - name: step1
+        run: echo "Hello, from test2, step1"
+      - name: step2
+        run: echo "test2 step2"
+  deploy: 
+    runs-on: ubuntu-latest
+    needs: [test, test2]
+    steps: 
+      - name: step1
+        run: echo "Hello, from job2, step1"
+      - name: step2
+        run: | 
+          echo "job2 step2"
+          sleep 10
+      - name: step3
+        run: |
+          echo "hello from job 2 step3"
+          sleep 10
+          hostname
+          pwd
+          id
+  notify: 
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ always() }}
+    steps: 
+      - name: step1
+        run: echo "Notify pipeline run"
+      - name: step2
+        run: | 
+          echo "job2 step2"
+          sleep 10
