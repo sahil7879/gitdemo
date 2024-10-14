@@ -1,4 +1,4 @@
-          name: first_pipeline
+name: first_pipeline
 on: push
 jobs:
   job1: 
