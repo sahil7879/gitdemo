@@ -1,21 +1,13 @@
-name: second_pipeline
-on: 
-  pull_request: 
-    branches:
-      - main
-  push: 
-    branches:
-      - main
-      - test
-
-  workflow_dispatch:
-  
+name: first_pipeline
+on: push
 jobs:
   job1: 
     runs-on: ubuntu-latest
     steps: 
       - name: step1
-        run: echo "Hello, Commit happened successfully"
+        run: |
+          eco "Hello, Commit happened successfully"
+        continue-on-error: true
       - name: step2
         run: |
           echo "step2"
@@ -43,4 +35,3 @@ jobs:
           hostname
           pwd
           id
-          
